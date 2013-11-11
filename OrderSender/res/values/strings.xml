@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">OrderSender</string>
+    <string name="menu_settings">Settings</string>
+    <string name="title">订单列表</string>
+    <string name="buttonText">已送达</string>
+    <string name="orderTitle">订单详情</string>
+    <string name="id">订单号：</string>
+    <string name="content">货物内容：</string>
+    <string name="buyer">买家姓名：</string>
+    <string name="tel">联系电话：</string>
+    <string name="address">地址：</string>
+    <string name="returnBtn">返回</string>
+
+</resources>
