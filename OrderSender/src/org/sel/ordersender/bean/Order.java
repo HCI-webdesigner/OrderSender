@@ -2,6 +2,12 @@ package org.sel.ordersender.bean;
 
 import java.io.Serializable;
 
+
+/**
+ * 
+ * @author Sel
+ * 订单类，包含订单的详细信息
+ */
 public class Order implements Serializable{
 
 	private String order_id;

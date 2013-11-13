@@ -12,9 +12,16 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+/**
+ * 
+ * @author Sel
+ * 显示订单信息的ListView的适配器
+ */
 public class MyAdapter extends BaseAdapter{
 	
+	//用来加载ListItem布局的布局加载器
 	private LayoutInflater inflater;
+	//包含订单信息的list
 	private List<Order> list;
 	
 	public MyAdapter(Context context,List<Order> orderlist){
@@ -41,6 +48,7 @@ public class MyAdapter extends BaseAdapter{
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
+		  //加载ListItem布局
 	      convertView = inflater.inflate(R.layout.list, null);
 	      TextView id = (TextView)convertView.findViewById(R.id.order_id);
 	      id.setText(list.get(position).getOrder_id());

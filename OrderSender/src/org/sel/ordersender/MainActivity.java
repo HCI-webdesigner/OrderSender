@@ -27,6 +27,11 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 
+/**
+ * 
+ * @author Sel
+ * 主Activity，主要显示订单列表
+ */
 public class MainActivity extends Activity {
 
 	private List<Order> orderlist;
@@ -44,26 +49,33 @@ public class MainActivity extends Activity {
 			@Override
 			public void handleMessage(Message msg) {
 				if (msg.what == 01234) {
+					//收到信息通知后，更新listView的信息
 					adapter = new MyAdapter(MainActivity.this, orderlist);
 					list.setAdapter(adapter);
 				}
 			}
 
 		};
+		
+		//设置定时器，每隔30秒向服务器发送一次获取订单信息的请求
 		new Timer().schedule(new TimerTask() {
 
 			@Override
 			public void run() {
 				orderlist = getOrderList();
+				//发送一条空信息，通知listView更新信息
                 handler.sendEmptyMessage(01234);
 			}
 		}, 0, 30000);
 
+		//设置listView的监听器
 		list.setOnItemClickListener(new MyListener());
 	}
 
 	
-	
+	/**
+	 * 由其他Activity切回本Activity时，向服务器发送请求，更新订单信息
+	 */
 	@Override
 	protected void onResume() {
 		orderlist = getOrderList();
@@ -85,6 +97,10 @@ public class MainActivity extends Activity {
 		return true;
 	}
 
+	/**
+	 * 向服务器发送请求，获取订单信息并返回包含订单信息的List
+	 * @return
+	 */
 	private List<Order> getOrderList() {
 		HttpClient httpClient;
 		HttpGet get;
@@ -104,6 +120,7 @@ public class MainActivity extends Activity {
 			entity = responce.getEntity();
 			is = entity.getContent();
 			br = new BufferedReader(new InputStreamReader(is));
+			//这里订单信息的获取方式由于没有实际的需求，所以单纯是我自己的模拟，到时要根据实际情况修改
 			while ((line = br.readLine()) != null) {
 				order = line.split("\t");
 				order_id = order[0];
@@ -121,6 +138,12 @@ public class MainActivity extends Activity {
 		return orderlist;
 	}
 
+	
+	/**
+	 * 
+	 * @author Sel
+	 * ListView的监听器类，用来实现点击时，打开另一Activity来显示订单的详细信息
+	 */
 	class MyListener implements OnItemClickListener {
 
 		@Override
@@ -128,6 +151,7 @@ public class MainActivity extends Activity {
 				long id) {
 			Order order = orderlist.get(position);
 			Bundle data = new Bundle();
+			//将订单信息添加到intent中，将其传到新的Activity
 			data.putSerializable("order", order);
 			Intent intent = new Intent(MainActivity.this, OrderContent.class);
 			intent.putExtras(data);
